@@ -28,17 +28,19 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
-import javax.persistence.EntityManager;
-import javax.persistence.LockModeType;
-import javax.persistence.NoResultException;
-
 import org.torpedoquery.core.QueryBuilder;
 import org.torpedoquery.jpa.OnGoingLogicalCondition;
 import org.torpedoquery.jpa.Query;
 import org.torpedoquery.jpa.internal.Parameter;
 import org.torpedoquery.jpa.internal.Selector;
 import org.torpedoquery.jpa.internal.TorpedoMagic;
-public class DefaultQuery<T> implements Query<T> {
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.LockModeType;
+import jakarta.persistence.NoResultException;
+
+public class DefaultQuery<T> implements Query<T>
+{
 
 	private List<Selector> toSelect;
 	private QueryBuilder<T> queryBuilder;
@@ -54,17 +56,22 @@ public class DefaultQuery<T> implements Query<T> {
 	 * Constructor for DefaultQueryBuilder.
 	 * </p>
 	 *
-	 * @param builder a {@link org.torpedoquery.core.QueryBuilder} object.
-	 * @param toSelect a {@link java.util.List} object.
+	 * @param builder
+	 *            a {@link org.torpedoquery.core.QueryBuilder} object.
+	 * @param toSelect
+	 *            a {@link java.util.List} object.
 	 */
-	public DefaultQuery(QueryBuilder<T> builder, List<Selector> toSelect) {
+	public DefaultQuery(QueryBuilder<T> builder, List<Selector> toSelect)
+	{
 		this.queryBuilder = builder;
 		this.toSelect = new ArrayList<Selector>(toSelect);
 	}
 
 	/** {@inheritDoc} */
-	public String getQuery(AtomicInteger incrementor) {
-		if (freezeQuery == null) {
+	public String getQuery(AtomicInteger incrementor)
+	{
+		if (freezeQuery == null)
+		{
 			String from = " from " + queryBuilder.getEntityName() + " " + queryBuilder.getAlias(incrementor);
 			StringBuilder builder = new StringBuilder();
 
@@ -87,21 +94,31 @@ public class DefaultQuery<T> implements Query<T> {
 
 	/** {@inheritDoc} */
 	@Override
-	public String getQuery() {
+	public String getQuery()
+	{
 		return getQuery(new AtomicInteger());
 	}
 
 	/**
-	 * <p>appendSelect.</p>
+	 * <p>
+	 * appendSelect.
+	 * </p>
 	 *
-	 * @param builder a {@link java.lang.StringBuilder} object.
-	 * @param incrementor a {@link java.util.concurrent.atomic.AtomicInteger} object.
+	 * @param builder
+	 *            a {@link java.lang.StringBuilder} object.
+	 * @param incrementor
+	 *            a {@link java.util.concurrent.atomic.AtomicInteger} object.
 	 */
-	public void appendSelect(StringBuilder builder, AtomicInteger incrementor) {
-		for (Selector selector : toSelect) {
-			if (builder.length() == 0) {
+	public void appendSelect(StringBuilder builder, AtomicInteger incrementor)
+	{
+		for (Selector selector : toSelect)
+		{
+			if (builder.length() == 0)
+			{
 				builder.append("select ").append(selector.createQueryFragment(incrementor));
-			} else {
+			}
+			else
+			{
 				builder.append(", ").append(selector.createQueryFragment(incrementor));
 			}
 		}
@@ -109,14 +126,16 @@ public class DefaultQuery<T> implements Query<T> {
 
 	/** {@inheritDoc} */
 	@Override
-	public Map<String, Object> getParameters() {
+	public Map<String, Object> getParameters()
+	{
 
-		//generate query
+		// generate query
 		getQuery();
-		
+
 		Map<String, Object> params = new HashMap<>();
 		List<ValueParameter<?>> parameters = queryBuilder.getValueParameters();
-		for (ValueParameter parameter : parameters) {
+		for (ValueParameter parameter : parameters)
+		{
 			params.put(parameter.getName(), parameter.getValue());
 		}
 		return params;
@@ -124,56 +143,69 @@ public class DefaultQuery<T> implements Query<T> {
 
 	/** {@inheritDoc} */
 	@Override
-	public List<ValueParameter<?>> getValueParameters() {
+	public List<ValueParameter<?>> getValueParameters()
+	{
 		return queryBuilder.getValueParameters();
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public Optional<T> get(EntityManager entityManager) {
-		try {
-			return Optional.<T>ofNullable((T) createJPAQuery(entityManager).getSingleResult());
-		} catch (NoResultException e) {
+	public Optional<T> get(EntityManager entityManager)
+	{
+		try
+		{
+			return Optional.<T> ofNullable((T) createJPAQuery(entityManager).getSingleResult());
+		}
+		catch (NoResultException e)
+		{
 			return Optional.empty();
 		}
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public List<T> list(EntityManager entityManager) {
+	public List<T> list(EntityManager entityManager)
+	{
 		return createJPAQuery(entityManager).getResultList();
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public <E> List<E> map(EntityManager entityManager, Function<T, E> function) {
+	public <E> List<E> map(EntityManager entityManager, Function<T, E> function)
+	{
 		List<T> toConvert = list(entityManager);
 		List<E> result = new ArrayList<>();
 
-		for (T value : toConvert) {
+		for (T value : toConvert)
+		{
 			result.add(function.apply(value));
 		}
 		return result;
 	}
 
-	private javax.persistence.Query createJPAQuery(EntityManager entityManager) {
-		final javax.persistence.Query query = entityManager.createQuery(getQuery(new AtomicInteger()));
+	private jakarta.persistence.Query createJPAQuery(EntityManager entityManager)
+	{
+		final jakarta.persistence.Query query = entityManager.createQuery(getQuery(new AtomicInteger()));
 
-		if (startPosition >= 0) {
+		if (startPosition >= 0)
+		{
 			query.setFirstResult(startPosition);
 		}
 
-		if (maxResult > 0) {
+		if (maxResult > 0)
+		{
 			query.setMaxResults(maxResult);
 		}
 
-		if (lockMode != null) {
+		if (lockMode != null)
+		{
 			query.setLockMode(lockMode);
 		}
 
 		final Map<String, Object> parameters = getParameters();
 
-		for (Entry<String, Object> parameter : parameters.entrySet()) {
+		for (Entry<String, Object> parameter : parameters.entrySet())
+		{
 			query.setParameter(parameter.getKey(), parameter.getValue());
 		}
 
@@ -184,45 +216,52 @@ public class DefaultQuery<T> implements Query<T> {
 
 	/** {@inheritDoc} */
 	@Override
-	public Query<T> setFirstResult(int startPosition) {
+	public Query<T> setFirstResult(int startPosition)
+	{
 		this.startPosition = startPosition;
 		return this;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public Query<T> setMaxResults(int maxResult) {
+	public Query<T> setMaxResults(int maxResult)
+	{
 		this.maxResult = maxResult;
 		return this;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public Object getProxy() {
+	public Object getProxy()
+	{
 		return null;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public String createQueryFragment(AtomicInteger incrementor) {
+	public String createQueryFragment(AtomicInteger incrementor)
+	{
 		return "( " + getQuery(incrementor) + " )";
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public Parameter<T> generateParameter(T value) {
+	public Parameter<T> generateParameter(T value)
+	{
 		return null;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public Optional<OnGoingLogicalCondition> condition() {
+	public Optional<OnGoingLogicalCondition> condition()
+	{
 		return queryBuilder.condition();
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public Query<T> setLockMode(LockModeType lockMode) {
+	public Query<T> setLockMode(LockModeType lockMode)
+	{
 		this.lockMode = lockMode;
 		return this;
 	}

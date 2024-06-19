@@ -14,37 +14,41 @@
  * limitations under the License.
  */
 package org.torpedoquery.jpa.test.bo;
-public class ExtendEntity extends Entity {
+
+public class ExtendEntity extends Entity
+{
 
 	private String specificField;
 
 	/**
-	 * <p>Getter for the field <code>specificField</code>.</p>
+	 * <p>
+	 * Getter for the field <code>specificField</code>.
+	 * </p>
 	 *
 	 * @return a {@link java.lang.String} object.
 	 */
-	public String getSpecificField() {
+	public String getSpecificField()
+	{
 		return specificField;
 	}
 
 	/**
-	 * <p>Setter for the field <code>specificField</code>.</p>
+	 * <p>
+	 * Setter for the field <code>specificField</code>.
+	 * </p>
 	 *
-	 * @param specificField a {@link java.lang.String} object.
+	 * @param specificField
+	 *            a {@link java.lang.String} object.
 	 */
-	public void setSpecificField(String specificField) {
+	public void setSpecificField(String specificField)
+	{
 		this.specificField = specificField;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public SubEntity getSubEntity() {
+	public SubEntity getSubEntity()
+	{
 		return super.getSubEntity();
-	}
-	
-	/** {@inheritDoc} */
-	@Override
-	protected void finalize() throws Throwable {
-		super.finalize();
 	}
 }

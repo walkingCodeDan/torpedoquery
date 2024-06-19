@@ -21,22 +21,21 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
-import javax.persistence.EntityManager;
-import javax.persistence.LockModeType;
-
-import org.torpedoquery.jpa.internal.Parameter;
 import org.torpedoquery.jpa.internal.query.ValueParameter;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.LockModeType;
 
 /**
  *
- * Query is the result of the Torpedo.select() You can retreive the data with
- * methods get and list or access to HQL String with getQuery and the related
+ * Query is the result of the Torpedo.select() You can retreive the data with methods get and list or access to HQL String with getQuery and the related
  * parameters with getParameters()
  *
  * @author xjodoin
  * @version $Id: $Id
  */
-public interface Query<T> extends ComparableFunction<T>, Cloneable {
+public interface Query<T> extends ComparableFunction<T>, Cloneable
+{
 
 	/**
 	 * <p>
@@ -46,11 +45,14 @@ public interface Query<T> extends ComparableFunction<T>, Cloneable {
 	 * @return the generated query string
 	 */
 	String getQuery();
-	
+
 	/**
-	 * <p>getQuery.</p>
+	 * <p>
+	 * getQuery.
+	 * </p>
 	 *
-	 * @param incrementor a {@link java.util.concurrent.atomic.AtomicInteger} object.
+	 * @param incrementor
+	 *            a {@link java.util.concurrent.atomic.AtomicInteger} object.
 	 * @return a {@link java.lang.String} object.
 	 */
 	String getQuery(AtomicInteger incrementor);
@@ -63,9 +65,11 @@ public interface Query<T> extends ComparableFunction<T>, Cloneable {
 	 * @return query parameters
 	 */
 	Map<String, Object> getParameters();
-	
+
 	/**
-	 * <p>getValueParameters.</p>
+	 * <p>
+	 * getValueParameters.
+	 * </p>
 	 *
 	 * @return a {@link java.util.List} object.
 	 */
@@ -73,11 +77,10 @@ public interface Query<T> extends ComparableFunction<T>, Cloneable {
 
 	/**
 	 *
-	 * Retrieve the query data and apply a transformation function on each
-	 * elements
+	 * Retrieve the query data and apply a transformation function on each elements
 	 *
 	 * @param entityManager
-	 *            a {@link javax.persistence.EntityManager} object.
+	 *            a {@link jakarta.persistence.EntityManager} object.
 	 * @param function
 	 *            a {@link java.util.function.Function} object.
 	 * @param <E>
@@ -91,7 +94,7 @@ public interface Query<T> extends ComparableFunction<T>, Cloneable {
 	 * Use only when your query is suppose to return only one element
 	 *
 	 * @param entityManager
-	 *            a {@link javax.persistence.EntityManager} object.
+	 *            a {@link jakarta.persistence.EntityManager} object.
 	 * @return a {@link java.util.Optional} object.
 	 */
 	Optional<T> get(EntityManager entityManager);
@@ -101,7 +104,7 @@ public interface Query<T> extends ComparableFunction<T>, Cloneable {
 	 * Execute and return your query data
 	 *
 	 * @param entityManager
-	 *            a {@link javax.persistence.EntityManager} object.
+	 *            a {@link jakarta.persistence.EntityManager} object.
 	 * @return a {@link java.util.List} object.
 	 */
 	List<T> list(EntityManager entityManager);
@@ -134,14 +137,16 @@ public interface Query<T> extends ComparableFunction<T>, Cloneable {
 	 * @return the current condition builder
 	 */
 	Optional<OnGoingLogicalCondition> condition();
-	
+
 	/**
-	 * <p>setLockMode.</p>
+	 * <p>
+	 * setLockMode.
+	 * </p>
 	 *
-	 * @param lockMode a {@link javax.persistence.LockModeType} object.
+	 * @param lockMode
+	 *            a {@link jakarta.persistence.LockModeType} object.
 	 * @return a {@link org.torpedoquery.jpa.Query} object.
 	 */
 	Query<T> setLockMode(LockModeType lockMode);
 
-	
 }

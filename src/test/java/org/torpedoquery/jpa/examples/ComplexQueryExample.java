@@ -22,17 +22,22 @@ import static org.torpedoquery.jpa.Torpedo.with;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-public class ComplexQueryExample {
+import jakarta.persistence.EntityManager;
+
+public class ComplexQueryExample
+{
 
 	private EntityManager manager;
 
 	/**
-	 * <p>findUsers.</p>
+	 * <p>
+	 * findUsers.
+	 * </p>
 	 *
 	 * @return a {@link java.util.List} object.
 	 */
-	public List<User> findUsers() {
+	public List<User> findUsers()
+	{
 		User from = from(User.class);
 		City city = innerJoin(from.getCity());
 		with(city.getCode()).in("one", "two").or(city.getCode()).notIn("three", "four");

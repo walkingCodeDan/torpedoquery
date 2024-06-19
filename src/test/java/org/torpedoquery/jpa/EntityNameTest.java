@@ -21,47 +21,59 @@ import static org.torpedoquery.jpa.Torpedo.select;
 
 import java.util.UUID;
 
-import javax.persistence.Id;
-
 import org.junit.Test;
-public class EntityNameTest {
 
-	@javax.persistence.Entity(name = "myEntity")
-	public static class EntityWithAnnotationName {
+import jakarta.persistence.Id;
+
+public class EntityNameTest
+{
+
+	@jakarta.persistence.Entity(name = "myEntity")
+	public static class EntityWithAnnotationName
+	{
 		@Id
 		private String id = UUID.randomUUID().toString();
 
-		public String getId() {
+		public String getId()
+		{
 			return id;
 		}
 	}
 
-	@javax.persistence.Entity()
-	public static class EntityWithAnnotationWithoutName {
+	@jakarta.persistence.Entity()
+	public static class EntityWithAnnotationWithoutName
+	{
 		@Id
 		private String id = UUID.randomUUID().toString();
 
-		public String getId() {
+		public String getId()
+		{
 			return id;
 		}
 	}
 
 	/**
-	 * <p>test_createQueryWithName.</p>
+	 * <p>
+	 * test_createQueryWithName.
+	 * </p>
 	 */
 	@Test
-	public void test_createQueryWithName() {
+	public void test_createQueryWithName()
+	{
 		final EntityWithAnnotationName entity = from(EntityWithAnnotationName.class);
 		org.torpedoquery.jpa.Query<EntityWithAnnotationName> select = select(entity);
 		assertEquals("select myEntity_0 from myEntity myEntity_0",
 				select.getQuery());
 	}
-	
+
 	/**
-	 * <p>test_createQueryWithoutName.</p>
+	 * <p>
+	 * test_createQueryWithoutName.
+	 * </p>
 	 */
 	@Test
-	public void test_createQueryWithoutName() {
+	public void test_createQueryWithoutName()
+	{
 		final EntityWithAnnotationWithoutName entity = from(EntityWithAnnotationWithoutName.class);
 		org.torpedoquery.jpa.Query<EntityWithAnnotationWithoutName> select = select(entity);
 		assertEquals("select entityWithAnnotationWithoutName_0 from EntityWithAnnotationWithoutName entityWithAnnotationWithoutName_0",

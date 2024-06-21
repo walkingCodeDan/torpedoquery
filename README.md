@@ -1,12 +1,10 @@
-TorpedoQuery
-============
+TorpedoQuery Jakarta
+====================
 
 ## Status
-
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.torpedoquery/org.torpedoquery/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.torpedoquery/org.torpedoquery)
 [![license](https://img.shields.io/github/license/xjodoin/torpedoquery.svg)](https://github.com/xjodoin/torpedoquery/blob/master/LICENSE)
 
-
+This is a fork of the base TorpedoQuery. The difference is that this one uses Jakarta instead of Javax for persistence. Thus, making it useful for the latest Springboot framework versions.
 
 
 Simple and powerful query builder for your project. Can be use with any existing Hibernate or JPA application.  
@@ -18,7 +16,7 @@ Stop wasting your time to maintain complex HQL queries and start today with the 
 
 Start by importing the necessary classes from the Torpedo Query library. This will enable you to use the query methods directly.
 ```java
-import static org.torpedoquery.jpa.Torpedo.*;
+import static org.torpedoquery.jakarta.jpa.Torpedo.*;
 ```
 
 **Step 2:** **Simple Select Query**
@@ -26,7 +24,7 @@ import static org.torpedoquery.jpa.Torpedo.*;
 A basic query retrieves all columns for the Entity rows. This can be compared to SQL's `SELECT *`.
 ```java
 Entity entity = from(Entity.class);
-org.torpedoquery.jpa.Query<Entity> selectQuery = select(entity);
+org.torpedoquery.jakarta.jpa.Query<Entity> selectQuery = select(entity);
 ```
 
 **Step 3:** **Scalar Queries**
@@ -34,7 +32,7 @@ org.torpedoquery.jpa.Query<Entity> selectQuery = select(entity);
 Scalar queries return specific columns rather than the entire row. This is useful when you only need particular data points.
 ```java
 Entity entity = from(Entity.class);
-org.torpedoquery.jpa.Query<String> scalarQuery = select(entity.getCode());
+org.torpedoquery.jakarta.jpa.Query<String> scalarQuery = select(entity.getCode());
 ```
 
 **Step 4:** **Executing Your Query**
@@ -42,7 +40,7 @@ org.torpedoquery.jpa.Query<String> scalarQuery = select(entity.getCode());
 After constructing your query, execute it using an `EntityManager` to retrieve results. Here, we're getting a list of entities.
 ```java
 Entity entity = from(Entity.class);
-org.torpedoquery.jpa.Query<Entity> selectQuery = select(entity);
+org.torpedoquery.jakarta.jpa.Query<Entity> selectQuery = select(entity);
 List<Entity> entityList = selectQuery.list(entityManager);
 ```
 
@@ -52,7 +50,7 @@ Queries can be filtered using conditions. Here, we're querying entities with a s
 ```java
 Entity entity = from(Entity.class);
 where(entity.getCode()).eq("mycode");
-org.torpedoquery.jpa.Query<Entity> conditionalQuery = select(entity);
+org.torpedoquery.jakarta.jpa.Query<Entity> conditionalQuery = select(entity);
 ```
 The `.eq("mycode")` is equivalent to SQL's `WHERE code = 'mycode'`.
 
@@ -62,7 +60,7 @@ Torpedo Query supports joining tables. Here's how you can create an inner join b
 ```java
 Entity entity = from(Entity.class);
 SubEntity subEntity = innerJoin(entity.getSubEntities());
-org.torpedoquery.jpa.Query<String[]> joinQuery = select(entity.getCode(), subEntity.getName());
+org.torpedoquery.jakarta.jpa.Query<String[]> joinQuery = select(entity.getCode(), subEntity.getName());
 ```
 The result will be a combination of `entity.getCode()` and `subEntity.getName()` for each matching row.
 

@@ -6,7 +6,7 @@
 
 	<groupId>io.github.walkingcodedan</groupId>
 	<artifactId>org.torpedoquery.jakarta</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<inceptionYear>2011</inceptionYear>
 
 	<name>TorpedoQuery Jakarta</name>

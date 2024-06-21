@@ -83,7 +83,7 @@ Remember, always refer to the official documentation of Torpedo Query for a comp
 
 #### How to Improve It ####
 
-Create your own fork of [xjodoin/torpedoquery](https://github.com/xjodoin/torpedoquery)
+Create your own fork of the original [xjodoin/torpedoquery](https://github.com/xjodoin/torpedoquery)
 
 To share your changes, [submit a pull request](https://github.com/xjodoin/torpedoquery/pull/new/master).
 
